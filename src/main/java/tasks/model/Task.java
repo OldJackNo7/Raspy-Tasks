@@ -17,11 +17,8 @@ public class Task implements Serializable, Cloneable {
     private boolean active;
 
     private static final Logger log = Logger.getLogger(Task.class.getName());
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-    public static SimpleDateFormat getDateFormat() {
-        return sdf;
-    }
 
     public Task(String title, Date time) {
         if (time.getTime() < 0) {
@@ -34,7 +31,7 @@ public class Task implements Serializable, Cloneable {
         this.end = time;
     }
 
-    public Task(Task task) {
+    Task(Task task) {
         this.title = task.getTitle();
         this.time = task.getTime();
         this.start = task.getStartTime();
@@ -107,7 +104,7 @@ public class Task implements Serializable, Cloneable {
     }
 
     public boolean isRepeated() {
-        return !(this.interval == 0);
+        return (this.interval != 0);
 
     }
 
@@ -119,17 +116,23 @@ public class Task implements Serializable, Cloneable {
             if (current.before(start)) {
                 return start;
             }
-            if ((current.after(start) || current.equals(start)) && (current.before(end) || current.equals(end))) {
-                for (long i = start.getTime(); i <= end.getTime(); i += interval * 1000) {
-                    if (current.equals(timeAfter)) return new Date(timeAfter.getTime() + interval * 1000);
-                    if (current.after(timeBefore) && current.before(timeAfter)) return timeBefore;//return timeAfter
-                    timeBefore = timeAfter;
-                    timeAfter = new Date(timeAfter.getTime() + interval * 1000);
-                }
-            }
+            timeBefore = getDate(current, timeBefore, timeAfter);
+            if (timeBefore != null) return timeBefore;
         }
         if (!isRepeated() && current.before(time) && isActive()) {
             return time;
+        }
+        return null;
+    }
+
+    private Date getDate(Date current, Date timeBefore, Date timeAfter) {
+        if ((current.after(start) || current.equals(start)) && (current.before(end) || current.equals(end))) {
+            for (long i = start.getTime(); i <= end.getTime(); i += interval * 1000) {
+                if (current.equals(timeAfter)) return new Date(timeAfter.getTime() + interval * 1000);
+                if (current.after(timeBefore) && current.before(timeAfter)) return timeBefore;//return timeAfter
+                timeBefore = timeAfter;
+                timeAfter = new Date(timeAfter.getTime() + interval * 1000);
+            }
         }
         return null;
     }
@@ -190,6 +193,7 @@ public class Task implements Serializable, Cloneable {
                 ", active=" + active +
                 '}';
     }
+
 }
 
 

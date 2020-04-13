@@ -44,7 +44,7 @@ public class LinkedTaskList  extends TaskList {
         }
     }
     private int numberOfTasks;
-    private Node last;
+    private transient Node last;
 
     @Override
     public void add(Task task) {
@@ -135,10 +135,6 @@ public class LinkedTaskList  extends TaskList {
             return last;
         }
 
-        private void setTask(Task task) {
-            this.task = task;
-        }
-
         private void setLast(Node last) {
             this.last = last;
         }
@@ -175,9 +171,6 @@ public class LinkedTaskList  extends TaskList {
                 "numberOfTasks=" + numberOfTasks +
                 ", last=" + last +
                 '}';
-    }
-    @Override
-    protected LinkedTaskList clone() throws CloneNotSupportedException {
-        return (LinkedTaskList) super.clone();
+
     }
 }
