@@ -136,7 +136,7 @@ public class Controller {
     }
 
     @FXML
-    public static void showDetailedInfo() {
+    public void showDetailedInfo() {
         try {
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader(Controller.class.getResource("/fxml/task-info.fxml"));
