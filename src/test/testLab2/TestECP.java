@@ -22,8 +22,8 @@ public class TestECP {
     }
 
     @Test
-    @DisplayName("Task corect numarul 1")
     @Order(1)
+    @DisplayName("Task valid - titlu si interval valid")
     public void correctTask1() {
         String title = "Task";
         Date startDate = new Date();
@@ -34,10 +34,10 @@ public class TestECP {
         assertEquals(task1.isActive(), task2.isActive());
     }
 
-    @ParameterizedTest
-    @DisplayName("Task corect numarul 2")
-    @ValueSource(ints = { 1,2,5,10 })
     @Order(2)
+    @DisplayName("Task valid - titlu si interval valid")
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 5, 10})
     public void correctTask2(int interval) {
         String title = "Task";
         Date startDate = new Date();
@@ -52,8 +52,8 @@ public class TestECP {
     }
 
     @Test
-    @DisplayName("Task corect numarul 3")
     @Order(3)
+    @DisplayName("Task valid - titlu si interval valide")
     public void correctTask3() {
         String title = "TaskMaiBun";
         Date startDate = new Date(0);
@@ -76,8 +76,8 @@ public class TestECP {
     }
 
     @Test
-    @DisplayName("Titlu gresit")
     @Order(4)
+    @DisplayName("Task invalid - titlul mai lung de 20 caractere")
     public void wrongTitle() {
         String title = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         Date startDate = new Date();
@@ -85,13 +85,14 @@ public class TestECP {
         assertThrows(IllegalArgumentException.class, () -> tasksService.createTask(title, startDate, true, endDate, 1, false));
     }
 
-    @Test
-    @DisplayName("Interval gresit")
     @Order(5)
-    public void wrongInterval() {
+    @DisplayName("Task invalid - intervalul nu se incadreaza in valorile [1,60]")
+    @ParameterizedTest
+    @ValueSource(ints = {-100, -10, 100, 1998})
+    public void wrongInterval(int interval) {
         String title = "Task";
         Date startDate = new Date();
         Date endDate = new Date();
-        assertThrows(IllegalArgumentException.class, () -> tasksService.createTask(title, startDate, true, endDate, 1998, false));
+        assertThrows(IllegalArgumentException.class, () -> tasksService.createTask(title, startDate, true, endDate, interval, false));
     }
 }
