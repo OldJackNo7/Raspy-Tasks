@@ -13,6 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestBVA {
     private TasksService tasksService;
+    private final Date startDate = new Date("01/14/2020");
+    private final Date endDate = new Date("02/14/2020");
 
     @BeforeAll
     public void setUp() {
@@ -22,12 +24,12 @@ public class TestBVA {
 
     @Test
     public void emptyTitle() {
-        assertThrows(IllegalArgumentException.class, () -> tasksService.createTask("", new Date(), false, new Date(), 1, false));
+        assertThrows(IllegalArgumentException.class, () -> tasksService.createTask("", startDate, false, endDate, 1, false));
     }
 
     @Test
     public void lowerLimitTitle() {
-        tasksService.createTask("a", new Date(), false, new Date(), 1, false);
+        tasksService.createTask("a", startDate, false, endDate, 1, false);
     }
 
     @Test
@@ -37,7 +39,7 @@ public class TestBVA {
             stringBuilder.append("a");
         }
         String title = stringBuilder.toString();
-        tasksService.createTask(title, new Date(), false, new Date(), 1, false);
+        tasksService.createTask(title, startDate, false, endDate, 1, false);
     }
 
     @Test
@@ -47,26 +49,26 @@ public class TestBVA {
             stringBuilder.append("a");
         }
         String title = stringBuilder.toString();
-        assertThrows(IllegalArgumentException.class, () -> tasksService.createTask(title, new Date(), false, new Date(), 1, false));
+        assertThrows(IllegalArgumentException.class, () -> tasksService.createTask(title, startDate, false, endDate, 1, false));
     }
 
     @Test
     public void underLowerLimitInterval() {
-        assertThrows(IllegalArgumentException.class, () -> tasksService.createTask("", new Date(), false, new Date(), 0, false));
+        assertThrows(IllegalArgumentException.class, () -> tasksService.createTask("", startDate, false, endDate, 0, false));
     }
 
     @Test
     public void lowerLimitInterval() {
-        tasksService.createTask("a", new Date(), false, new Date(), 1, false);
+        tasksService.createTask("a", startDate, false, endDate, 1, false);
     }
 
     @Test
     public void upperLimitInterval() {
-        tasksService.createTask("a", new Date(), false, new Date(), 60, false);
+        tasksService.createTask("a", startDate, false, endDate, 60, false);
     }
 
     @Test
     public void aboveUpperLimitInterval() {
-        tasksService.createTask("a", new Date(), false, new Date(), 61, false);
+        tasksService.createTask("a", startDate, false, endDate, 61, false);
     }
 }
