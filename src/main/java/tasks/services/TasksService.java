@@ -46,7 +46,37 @@ public class TasksService {
     public Iterable<Task> filterTasks(Date start, Date end){
         TasksOperations tasksOps = new TasksOperations(getObservableList());
         return tasksOps.incoming(start,end);
+    }
 
+    public Task createTask(String newTitle, Date newStartDate, boolean isRepeated, Date newEndDate, int newInterval, boolean isActive) {
+        Task result;
 
+        if(newTitle.isEmpty()) {
+            throw new IllegalArgumentException("Title cannot be null");
+        }
+        if(newTitle.length() > 20) {
+            throw new IllegalArgumentException("Title cannot have more than 20 characters");
+        }
+        if (newStartDate.getTime() < 0) {
+            throw new IllegalArgumentException("Start time cannot be negative");
+        }
+
+        if (isRepeated){
+            if (newEndDate.getTime() < 0) {
+                throw new IllegalArgumentException("End time cannot be negative");
+            }
+            if (newStartDate.after(newEndDate)) {
+                throw new IllegalArgumentException("Start date should be before end");
+            }
+            if (newInterval < 1 || newInterval > 60) {
+                throw new IllegalArgumentException("Interval must be between 1 and 60");
+            }
+            result = new Task(newTitle, newStartDate, newEndDate, newInterval);
+        }
+        else {
+            result = new Task(newTitle, newStartDate);
+        }
+        result.setActive(isActive);
+        return result;
     }
 }
