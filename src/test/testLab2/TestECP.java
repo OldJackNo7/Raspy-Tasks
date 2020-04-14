@@ -24,10 +24,10 @@ public class TestECP {
     }
 
     @Order(1)
-    @DisplayName("Task valid - titlu si interval valid")
+    @DisplayName("TC1_ECP, TC2_ECP,TC3_ECP, TC4_ECP - Task valid - titlu si interval valid")
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 5, 10})
-    public void correctTask2(int interval) {
+    public void correctTask(int interval) {
         String title = "Task";
         Task task1 = new Task(title, startDate, endDate, interval);
         Task task2 = tasksService.createTask(title, startDate, true, endDate, interval, false);
@@ -38,20 +38,20 @@ public class TestECP {
         assertEquals(task1.isActive(), task2.isActive());
     }
 
-    @Test
     @Order(2)
-    @DisplayName("Task invalid - titlul mai lung de 20 caractere")
-    public void wrongTitle() {
-        String title = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+    @DisplayName("TC5_ECP - Task invalid - lungimea titlului nu se incadreaza in intervalul [1,20]")
+    @ParameterizedTest
+    @ValueSource(strings = {"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",""})
+    public void wrongTitle(String title) {
         assertThrows(IllegalArgumentException.class, () -> tasksService.createTask(title, startDate, true, endDate, 1, false));
     }
 
+    @Test
     @Order(3)
-    @DisplayName("Task invalid - intervalul nu se incadreaza in valorile [1,60]")
-    @ParameterizedTest
-    @ValueSource(ints = {-100, -10, 100, 1998})
-    public void wrongInterval(int interval) {
+    @DisplayName("TC6_ECP - Task invalid - intervalul nu se incadreaza in valorile [1,60]")
+    public void wrongInterval() {
         String title = "Task";
+        int interval = -100;
         assertThrows(IllegalArgumentException.class, () -> tasksService.createTask(title, startDate, true, endDate, interval, false));
     }
 }
