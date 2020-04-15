@@ -139,29 +139,33 @@ public class TaskIO {
 
     //
     private static int getIntervalFromText(String line) {
-
         int start = line.lastIndexOf('[');
         int end = line.lastIndexOf(']');
-        String trimmed = line.substring(start + 1, end);//returns interval without brackets -> 2 hours 46 minutes
-        int days = trimmed.contains("day") ? 1 : 0;
-        int hours = trimmed.contains("hour") ? 1 : 0;
-        int minutes = trimmed.contains("minute") ? 1 : 0;
-        int seconds = trimmed.contains("second") ? 1 : 0;
-
+        String trimmed = line.substring(start + 1, end);
+        int days = 0;
+        int hours = 0;
+        int minutes = 0;
+        int seconds = 0;
+        if (trimmed.contains("day"))
+            days = 1;
+        if (trimmed.contains("hour"))
+            hours = 1;
+        if (trimmed.contains("minute"))
+            minutes = 1;
+        if (trimmed.contains("second"))
+            seconds = 1;
         int[] timeEntities = new int[]{days, hours, minutes, seconds};
         int i = 0;
-        int j = timeEntities.length - 1;// positions of timeEntities available
+        int j = timeEntities.length - 1;
         while (i != 1 && j != 1) {
             if (timeEntities[i] == 0) i++;
             if (timeEntities[j] == 0) j--;
         }
-
         String[] numAndTextValues = trimmed.split(" ");
         for (int k = 0; k < numAndTextValues.length; k += 2) {
             timeEntities[i] = Integer.parseInt(numAndTextValues[k]);
             i++;
         }
-
         return getResult(timeEntities);
     }
 
@@ -218,7 +222,7 @@ public class TaskIO {
 
 
     ////service methods for writing
-    private  String getFormattedTask(Task task) {
+    private String getFormattedTask(Task task) {
         StringBuilder result = new StringBuilder();
         String title = task.getTitle();
         if (title.contains("\"")) title = title.replace("\"", "\"\"");
