@@ -10,30 +10,30 @@ public class TestWBTGetInterval {
     @Test
     public void TestWithValidDays() {
         int interval = TaskIO.getIntervalFromText("[1 day]");
-        assertEquals(interval, 86400);
+        assertEquals(86400, interval);
     }
 
     @Test
     public void TestWithValidHours() {
         int interval = TaskIO.getIntervalFromText("[10 hours]");
-        assertEquals(interval, 36000);
+        assertEquals(36000, interval);
     }
 
     @Test
     public void TestWithValidHoursAndMinutes() {
         int interval = TaskIO.getIntervalFromText("[1 hour 10 minutes]");
-        assertEquals(interval, 4200);
+        assertEquals(4200, interval);
     }
 
     @Test
     public void TestWithValidHoursAndSeconds() {
         int interval = TaskIO.getIntervalFromText("[2 hours 10 seconds]");
-        assertEquals(interval, 7801);
+        assertEquals(7201, interval);
     }
 
     @Test
     public void TestWithNoText() {
-        assertThrows(NumberFormatException.class, () -> TaskIO.getIntervalFromText("[]"));
+        assertThrows(StringIndexOutOfBoundsException.class, () -> TaskIO.getIntervalFromText(""));
     }
 
 }

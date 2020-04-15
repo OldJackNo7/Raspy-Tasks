@@ -165,7 +165,8 @@ public class TaskIO {
         }
         String[] numAndTextValues = trimmed.split(" ");
         for (int k = 0; k < numAndTextValues.length; k += 2) {
-            timeEntities[i] = Integer.parseInt(numAndTextValues[k]);
+            if(timeEntities[i] != 0)
+                timeEntities[i] = Integer.parseInt(numAndTextValues[k]);
             i++;
         }
         return getResult(timeEntities);
