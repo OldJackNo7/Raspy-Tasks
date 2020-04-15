@@ -68,8 +68,8 @@ public class TasksService {
             if (newStartDate.after(newEndDate)) {
                 throw new IllegalArgumentException("Start date should be before end");
             }
-            if (newInterval < 1 || newInterval > 60) {
-                throw new IllegalArgumentException("Interval must be between 1 and 60");
+            if (newInterval < 1 || newInterval > 216000) {
+                throw new IllegalArgumentException("Interval must be between 1 minute and 60 hours");
             }
             result = new Task(newTitle, newStartDate, newEndDate, newInterval);
         }

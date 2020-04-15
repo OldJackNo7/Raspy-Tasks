@@ -37,7 +37,7 @@ public class Main extends Application {
 
         log.info("saved data reading");
         if (savedTasksFile.length() != 0) {
-            TaskIO.readBinary(savedTasksList, savedTasksFile);
+            TaskIO.readText(savedTasksList, savedTasksFile);
         }
         try {
             log.info("application start");

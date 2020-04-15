@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TaskIO {
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
+    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
     private static final String[] TIME_ENTITY = {" day", " hour", " minute", " second"};
     private static final String IO_ERROR = "IO exception reading or writing file";
     private static final int SECONDS_IN_DAY = 86400;
@@ -78,7 +78,7 @@ public class TaskIO {
         }
     }
 
-    public void write(TaskList tasks, Writer out) throws IOException {
+    public static void write(TaskList tasks, Writer out) throws IOException {
         BufferedWriter bufferedWriter = new BufferedWriter(out);
         Task lastTask = tasks.getTask(tasks.size() - 1);
         for (Task t : tasks) {
@@ -90,7 +90,7 @@ public class TaskIO {
 
     }
 
-    public void read(TaskList tasks, Reader in) throws IOException {
+    public static void read(TaskList tasks, Reader in) throws IOException {
         BufferedReader reader = new BufferedReader(in);
         String line;
         Task t;
@@ -102,7 +102,7 @@ public class TaskIO {
 
     }
 
-    public void writeText(TaskList tasks, File file) throws IOException {
+    public static void writeText(TaskList tasks, File file) throws IOException {
         try (FileWriter fileWriter = new FileWriter(file)) {
             write(tasks, fileWriter);
         } catch (IOException e) {
@@ -111,14 +111,14 @@ public class TaskIO {
 
     }
 
-    public void readText(TaskList tasks, File file) throws IOException {
+    public static void readText(TaskList tasks, File file) throws IOException {
         try (FileReader fileReader = new FileReader(file)) {
             read(tasks, fileReader);
         }
     }
 
     //// service methods for reading
-    private Task getTaskFromString(String line) {
+    private static Task getTaskFromString(String line) {
         boolean isRepeated = line.contains("from");//if contains - means repeated
         boolean isActive = !line.contains("inactive");//if doesnt have inactive - means active
         //Task(String title, Date time)   Task(String title, Date start, Date end, int interval)
@@ -138,7 +138,7 @@ public class TaskIO {
     }
 
     //
-    private static int getIntervalFromText(String line) {
+    public static int getIntervalFromText(String line) {
         int start = line.lastIndexOf('[');
         int end = line.lastIndexOf(']');
         String trimmed = line.substring(start + 1, end);
@@ -158,8 +158,10 @@ public class TaskIO {
         int i = 0;
         int j = timeEntities.length - 1;
         while (i != 1 && j != 1) {
-            if (timeEntities[i] == 0) i++;
-            if (timeEntities[j] == 0) j--;
+            if (timeEntities[i] == 0)
+                i++;
+            if (timeEntities[j] == 0)
+                j--;
         }
         String[] numAndTextValues = trimmed.split(" ");
         for (int k = 0; k < numAndTextValues.length; k += 2) {
@@ -188,7 +190,7 @@ public class TaskIO {
         return result;
     }
 
-    private Date getDateFromText(String line, boolean isStartTime) {
+    private static Date getDateFromText(String line, boolean isStartTime) {
         Date date = null;
         String trimmedDate; //date trimmed from whole string
         int start;
@@ -222,7 +224,7 @@ public class TaskIO {
 
 
     ////service methods for writing
-    private String getFormattedTask(Task task) {
+    private static String getFormattedTask(Task task) {
         StringBuilder result = new StringBuilder();
         String title = task.getTitle();
         if (title.contains("\"")) title = title.replace("\"", "\"\"");
@@ -276,7 +278,7 @@ public class TaskIO {
             taskList.add(t);
         }
         try {
-            TaskIO.writeBinary(taskList, Main.savedTasksFile);
+            TaskIO.writeText(taskList, Main.savedTasksFile);
         } catch (IOException e) {
             log.error(IO_ERROR);
         }
