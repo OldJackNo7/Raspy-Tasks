@@ -36,4 +36,10 @@ public class TestWBTGetInterval {
         assertThrows(StringIndexOutOfBoundsException.class, () -> TaskIO.getIntervalFromText(""));
     }
 
+    @Test
+    public void TestWithNegativeValues() {
+        int interval = TaskIO.getIntervalFromText("[-10 hours 10 minutes]");
+        assertEquals(-35400, interval);
+    }
+
 }
