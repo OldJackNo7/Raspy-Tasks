@@ -16,9 +16,6 @@ public class TestArrayTaskList {
     private ArrayTaskList arrayTaskList;
     private Task task1, task2, task3;
 
-    private final Date startDate = new Date("01/14/2020");
-    private final Date endDate = new Date("02/14/2020");
-
     @BeforeAll
     public void setUp() {
         arrayTaskList = new ArrayTaskList();

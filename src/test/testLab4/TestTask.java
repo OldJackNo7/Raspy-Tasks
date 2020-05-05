@@ -14,15 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestTask {
-    private TasksService tasksService;
     private final Date startDate = new Date("01/14/2020");
     private final Date endDate = new Date("02/14/2020");
-
-    @BeforeAll
-    public void setUp() {
-        ArrayTaskList taskList = new ArrayTaskList();
-        tasksService = new TasksService(taskList);
-    }
 
     @DisplayName("TC1_ECP - Task valid - data si interval valide")
     @ParameterizedTest
