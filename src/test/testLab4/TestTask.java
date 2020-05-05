@@ -18,9 +18,9 @@ public class TestTask {
     private final Date endDate = new Date("02/14/2020");
 
     @DisplayName("TC1_ECP - Task valid - data si interval valide")
-    @ParameterizedTest
-    @ValueSource(strings = {"Task", "Task1234@!@#!$@#$!#!@#!@#!@#!@#aaaaaaaaa"})
-    public void correctTask(String title) {
+    @Test
+    public void correctTask() {
+        String title = "Task1234@!@#!$@#$!#!@#!@#!@#!@#aaaaaaaaa";
         Task task = new Task(title, startDate, endDate, 1);
         assertEquals(task.getTitle(), title);
         assertEquals(task.getStartTime(), startDate);
@@ -29,9 +29,9 @@ public class TestTask {
     }
 
     @DisplayName("TC2_ECP - Task invalid - data de inceput este negativa")
-    @ParameterizedTest
-    @ValueSource(ints = {-10, -1000})
-    public void wrongTitle(long timeValue) {
+    @Test
+    public void wrongTitle() {
+        long timeValue = -100;
         Date wrongDate = new Date();
         wrongDate.setTime(timeValue);
         wrongDate.setTime(timeValue);
