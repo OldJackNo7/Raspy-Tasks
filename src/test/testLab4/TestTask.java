@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class TestE {
+public class TestTask {
     private TasksService tasksService;
     private final Date startDate = new Date("01/14/2020");
     private final Date endDate = new Date("02/14/2020");
